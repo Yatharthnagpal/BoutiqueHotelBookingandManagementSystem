@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book a Room</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Boutique Hotel Booking</h1>
+  <form id="bookingForm">
+    <input type="text" id="guestName" placeholder="Name" required><br>
+    <input type="email" id="guestEmail" placeholder="Email" required><br>
+    <input type="tel" id="phoneNumber" placeholder="Phone Number" required><br>
+    <select id="roomType" required>
+      <option value="Standard">Standard</option>
+      <option value="Deluxe">Deluxe</option>
+    </select><br>
+    <input type="date" id="checkInDate" required><br>
+    <input type="date" id="checkOutDate" required><br>
+    <button type="submit">Book Now</button>
+  </form>
+
+  <script>
+    document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const data = {
+        bookingId: Date.now().toString(),
+        guestName: document.getElementById('guestName').value,
+        guestEmail: document.getElementById('guestEmail').value,
+        phoneNumber: document.getElementById('phoneNumber').value,
+        roomType: document.getElementById('roomType').value,
+        checkInDate: document.getElementById('checkInDate').value,
+        checkOutDate: document.getElementById('checkOutDate').value,
+      };
+
+      const response = await fetch('/book-room', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      alert(result.message);
+    });
+  </script>
+</body>
+</html>
